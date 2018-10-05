@@ -14,6 +14,7 @@ class GroupTableViewController: UITableViewController {
     @IBOutlet weak var randomizeBtn: UIBarButtonItem!
     @IBOutlet weak var addBtn: UIBarButtonItem!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -27,14 +28,20 @@ class GroupTableViewController: UITableViewController {
     
     // MARK: - Table view data source
 
+
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return PersonController.shared.persons.count
     }
-
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return groups[section]
+    }
+    
+    let groups = ["Group 1", "Group 2", "Group 3"]
   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PersonCell", for: indexPath)
@@ -76,8 +83,11 @@ class GroupTableViewController: UITableViewController {
     }
     
     @IBAction func randomizeBtnTapped(_ sender: Any) {
-        
+        PersonController.shared.persons.shuffle()
+        tableView.reloadData()
+        PersonController.shared.save()
     }
-    
-    
+   
 }
+
+
